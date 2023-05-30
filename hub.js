@@ -8,9 +8,9 @@ const payload = require('./examples/chance'); // pregenerated examples
 
 require('./vendor/index');
 //TODO: call handlers in here
-const driverHandler = require('./driver/index');
+const pickupHandler = require('./driver/index');
 
 
 
 //TODO: listen to events in here
-eventEmitter.on('NEW-ORDER', driverHandler);
+eventEmitter.on('NEW-ORDER', pickupHandler);

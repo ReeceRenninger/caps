@@ -2,13 +2,13 @@
 
 let eventEmitter = require('../eventPool');
 
-const driverHandler = (payload) => {
+const pickupHandler = (payload) => {
   setTimeout(() => {
     console.log('Driver is on his way to pickup: ', payload);
     
-  }, 2000);
+  }, 3000);
 };
 
-eventEmitter.on('NEW-ORDER', driverHandler); // driver handler is LISTENING FOR NEW-ORDER FROM VENDOR 
+eventEmitter.on('NEW-ORDER', pickupHandler); // driver handler is LISTENING FOR NEW-ORDER FROM VENDOR 
 
-module.exports = driverHandler;
+module.exports = pickupHandler;
