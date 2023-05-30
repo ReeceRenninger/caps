@@ -2,7 +2,7 @@
   "name": "caps",
   "version": "1.0.0",
   "description": "Project: Lab 11: Event Driven Applications",
-  "main": "eventPool.js",
+  "main": "hub.js",
   "directories": {
     "example": "examples"
   },
