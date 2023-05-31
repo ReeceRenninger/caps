@@ -1,7 +1,6 @@
 'use strict';
 
 const { orderHandler, deliveredMessage }= require('./handler');
-const payload = require('./chance');
 const eventEmitter = require('../../eventPool');
 
 //bring io in at index level for each driver and vendor
@@ -13,7 +12,7 @@ eventEmitter.on('delivered', deliveredMessage);
 
 //!! This starts the order cycle, the pickup emit is in my orderHandler
 setInterval(() => {
-  orderHandler(payload);
+  orderHandler();
 }, 5000);
 
 

@@ -1,12 +1,12 @@
-# LAB - Class 11: Event Driven Applications
+# LAB - Class 12: Socket.io
 
-## Project: Lab 11: Event Driven Applications
+## Project: Lab 12: Socket.io
 
 ### Author: Reece Renninger
 
 ### Problem Domain  
 
-This is the start of a 4 build phase for a CAPs system built in Node.js.  Initial goal is to set up a pool of events and handlers that communicate with each other based on a package in its different steps along its way to being delivered.
+This is the start of a 4 build phase for a CAPs system built in Node.js.  Initial goal is to set up a pool of events and handlers that communicate with each other based on a package in its different steps along its way to being delivered. These interactions will be completed using socket.io and socket.io-client.
 
 Major functionality to cover in lab:
 
@@ -18,14 +18,12 @@ Major functionality to cover in lab:
 
 ### Links and Resources
 
-- [GitHub Actions ci/cd](https://github.com/ReeceRenninger/caps/actions/new) 
+- [GitHub Actions ci/cd](https://github.com/ReeceRenninger/caps/actions)
 - [back-end server url](http://xyz.com) (when applicable)
 
 ### Collaborators
 
-- Ryan G helped guide me in how to set up my .on and get my vendor order started.
-- Matt helped with getting the timestamp working.
-- Hayden, Ryan E, Ike, Kaeden all worked together.
+-
 
 ### Setup
 
@@ -48,8 +46,8 @@ for now I have none and do not require one
 #### Tests
 
 - Tests have been built out to ensure the handlers are emitting the correct messages.
-- These can be ran using npm test (filename).
+- These can be ran using npm test (filename) or npm test.
 
 #### UML
 
-![Alt text](assets/Lab11UML.png)
+![Alt text](assets/lab12UML.png)

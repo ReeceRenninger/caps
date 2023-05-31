@@ -5,13 +5,15 @@ const eventEmitter = require('../../eventPool');
 var chance = new Chance();
 
 //Begins the order process with setInterval on index level.
-const orderHandler = (payload) => {
-  payload = {
-    store: chance.company(),
-    orderId: chance.guid(),
-    customer: chance.name(),
-    address: chance.address(),
-  };
+const orderHandler = (payload=null) => {
+  if(!payload){
+    payload = {
+      store: chance.company(),
+      orderId: chance.guid(),
+      customer: chance.name(),
+      address: chance.address(),
+    };
+  }
 
   console.log('VENDOR: ORDER ready for pickup:', payload);
   eventEmitter.emit('pickup', payload);
