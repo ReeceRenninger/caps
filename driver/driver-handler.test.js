@@ -1,7 +1,7 @@
 'use strict';
 
 let eventEmitter = require('../eventPool');
-const { pickupOccured, packageDelivered } = require('./handler');
+const { pickupOccurred, packageDelivered, handlePickupAndDelivered } = require('./handler');
 
 jest.mock('../eventPool.js', () => {
   return {
@@ -10,7 +10,7 @@ jest.mock('../eventPool.js', () => {
   };
 });
 
-// console.log = jest.fn();
+
 let consoleSpy;
 
 beforeAll(() => {
@@ -25,7 +25,7 @@ describe('Testing driver handlers', () => {
 
   test('Should log and emit in-transit after pick up occurs', () => {
     let payload = { orderId: 12345 };
-    pickupOccured(payload);
+    pickupOccurred(payload);
 
     expect(eventEmitter.emit).toHaveBeenCalledWith('in-transit', payload);
     expect(consoleSpy).toHaveBeenCalledWith('DRIVER: picked up', payload.orderId);
