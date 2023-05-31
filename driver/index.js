@@ -4,11 +4,23 @@ let eventEmitter = require('../eventPool');
 
 const pickupHandler = (payload) => {
   setTimeout(() => {
-    console.log('Driver is on his way to pickup: ', payload);
-    
-  }, 3000);
+
+    console.log('DRIVER: picked up', payload.orderId);
+    eventEmitter.emit('in-transit', payload);
+  }, 1000);
 };
 
-eventEmitter.on('NEW-ORDER', pickupHandler); // driver handler is LISTENING FOR NEW-ORDER FROM VENDOR 
+eventEmitter.on('pickup', pickupHandler); // move all .ons to handler once I figure out if they are working.
 
-module.exports = pickupHandler;
+const deliveryHandler = (payload) => {
+  setTimeout(() => {
+
+    console.log('DRIVER: delivered', payload.orderId);
+    eventEmitter.emit('delivered', payload);
+  }, 1000);
+};
+
+eventEmitter.on('in-transit', deliveryHandler);
+
+
+module.exports = { pickupHandler, deliveryHandler};

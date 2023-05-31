@@ -1,16 +1,13 @@
 'use strict';
 
-const eventEmitter = require('./eventPool');
-
-const payload = require('./examples/chance'); // pregenerated examples 
-// console.log(payload); // testing if chance payload was working.
-
+// require in the vendor/driver at the start for when new order is generated
 
 require('./vendor/index');
-//TODO: call handlers in here
-const pickupHandler = require('./driver/index');
+require('./driver/index');
+
+
+//function logger in the future
 
 
 
-//TODO: listen to events in here
-eventEmitter.on('NEW-ORDER', pickupHandler);
+
