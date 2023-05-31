@@ -3,14 +3,14 @@
 let eventEmitter = require('../../eventPool');
 const { pickupOccured, packageDelivered } = require('./handler');
 
-jest.mock('../eventPool.js', () => {
+jest.mock('../../eventPool.js', () => {
   return {
     on: jest.fn(),
     emit: jest.fn(),
   };
 });
 
-// console.log = jest.fn();
+
 let consoleSpy;
 
 beforeAll(() => {

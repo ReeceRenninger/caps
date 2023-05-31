@@ -1,7 +1,7 @@
 {
   "name": "caps",
   "version": "1.0.0",
-  "description": "Project: Lab 11: Event Driven Applications",
+  "description": "Project: Lab 12: Socket.io",
   "main": "hub.js",
   "directories": {
     "example": "examples"
@@ -16,7 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "chance": "^1.1.11",
+    "dotenv": "^16.1.2",
     "eslint": "^8.41.0",
-    "jest": "^29.5.0"
+    "jest": "^29.5.0",
+    "socket.io": "^4.6.2",
+    "socket.io-client": "^4.6.2"
   }
 }

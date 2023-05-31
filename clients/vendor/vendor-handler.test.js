@@ -4,7 +4,7 @@ let eventEmitter = require('../../eventPool');
 
 const { orderHandler, thankDriver } = require('./handler');
 
-jest.mock('../eventPool.js', () => {
+jest.mock('../../eventPool.js', () => {
   return {
     on: jest.fn(),
     emit: jest.fn(),
