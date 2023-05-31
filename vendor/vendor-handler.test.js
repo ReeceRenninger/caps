@@ -1,9 +1,8 @@
 'use strict';
 
-const { test } = require('node:test');
 let eventEmitter = require('../eventPool');
 
-const { orderHandler, deliveredMessage } = require('./handler');
+const { orderHandler, thankDriver } = require('./handler');
 
 jest.mock('../eventPool.js', () => {
   return {
@@ -12,7 +11,15 @@ jest.mock('../eventPool.js', () => {
   };
 });
 
-console.log = jest.fn();
+let consoleSpy;
+
+beforeAll(() => {
+  consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+});
+
+afterAll(() => {
+  consoleSpy.mockRestore();
+});
 
 describe('Vendor handlers', () => {
 
@@ -23,7 +30,7 @@ describe('Vendor handlers', () => {
 
     orderHandler(payload);
 
-    expect(console.log).toHaveBeenCalledWith('VENDOR ORDER:', payload);
+    expect(consoleSpy).toHaveBeenCalledWith('VENDOR: ORDER ready for pickup:', payload);
     expect(eventEmitter.emit).toHaveBeenCalledWith('pickup', payload);
   });
 
@@ -32,9 +39,9 @@ describe('Vendor handlers', () => {
       customer: 'Test Test',
     };
 
-    deliveredMessage(payload);
+    thankDriver(payload);
 
-    expect(console.log).toHaveBeenCalledWith('VENDOR: Thank you for your order', payload.customer);
+    expect(consoleSpy).toHaveBeenCalledWith('VENDOR: Thank you for your order', payload.customer);
   });
 
 });

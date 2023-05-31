@@ -1,18 +1,35 @@
 'use strict';
 
+var Chance = require('chance');
 const eventEmitter = require('../eventPool');
+var chance = new Chance();
 
 const orderHandler = (payload) => {
-  console.log('VENDOR ORDER:', payload);
-  eventEmitter.emit('pickup', payload); 
-  
+
+  payload = {
+
+    store: chance.company(),
+    orderId: chance.guid(),
+    customer: chance.name(),
+    address: chance.address(),
+
+  };
+
+  console.log('VENDOR: ORDER ready for pickup:', payload);
+  eventEmitter.emit('pickup', payload);
+
 };
+
+// testable code for deliveredMessage
+const thankDriver = (payload) =>
+  console.log('VENDOR: Thank you for your order', payload.customer);
 
 const deliveredMessage = (payload) => {
-  console.log('VENDOR: Thank you for your order', payload.customer);
-  eventEmitter.emit('event', 'delivered', payload);
+  setTimeout(() => {
+    thankDriver(payload);
+  }, 1000);
 };
 
-eventEmitter.on('delivered', deliveredMessage);
 
-module.exports = { orderHandler, deliveredMessage };
+
+module.exports = { orderHandler, deliveredMessage, thankDriver };

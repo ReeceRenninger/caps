@@ -1,23 +1,30 @@
 'use strict';
 
 const { orderHandler, deliveredMessage }= require('./handler');
+const payload = require('./chance');
+const eventEmitter = require('../eventPool');
 
-const newOrderHandler = (payload) => {
-  setTimeout(() => {
+//on should be at index level
+eventEmitter.on('delivered', deliveredMessage);
 
-    orderHandler(payload);
-  }, 3000);
-};
+// const newOrderHandler = (payload) => {
+//   setTimeout(() => {
 
-// invoking newOrderHandler function for order to be generated
-
-const deliveredHandler = (payload) => {
-  setTimeout(() => {
     
-    deliveredMessage(payload);
-  }, 500);
-};
+//   }, 3000);
+// };
+
+setInterval(() => {
+  orderHandler(payload);
+}, 5000);
+
+// const deliveredHandler = (payload) => {
+//   setTimeout(() => {
+    
+//     deliveredMessage(payload);
+//   }, 500);
+// };
 
 
-module.exports = { newOrderHandler, deliveredHandler };
+// module.exports = { deliveredHandler };
 
