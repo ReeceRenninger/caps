@@ -23,6 +23,10 @@ Major functionality to cover in lab:
 
 ### Collaborators
 
+- Ryan G helped guide me in how to set up my .on and get my vendor order started.
+- Matt helped with getting the timestamp working.
+- Hayden, Ryan E, Ike, Kaeden all worked together.
+
 ### Setup
 
 #### `.env` requirements (where applicable)

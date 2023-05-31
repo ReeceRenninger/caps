@@ -13,7 +13,7 @@ newOrderHandler(payload);
 
 //function logger in the future
 //build out timestamp at each iteration of the delivery process
-//!! still not working 
+//TODO: Get the set timeouts working again to allow the timestamp to trigger at EACH event iteration 
 eventPool.on('event', (event, payload) => {
   let timestamp = new Date();
   console.log(`EVENT: { event: '${event}, time: ${timestamp}, payload:${JSON.stringify(payload)}}`);
