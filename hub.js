@@ -2,8 +2,8 @@
 
 const eventPool = require('./eventPool');
 
-require('./vendor/index');
-require('./driver/index');
+require('./clients/vendor/index');
+require('./clients/driver/index');
 
 //build out timestamp at each iteration of the delivery process
 eventPool.on('pickup', (payload) => logger('pickup', payload));

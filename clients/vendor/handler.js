@@ -1,7 +1,7 @@
 'use strict';
 
 var Chance = require('chance');
-const eventEmitter = require('../eventPool');
+const eventEmitter = require('../../eventPool');
 var chance = new Chance();
 
 //Begins the order process with setInterval on index level.

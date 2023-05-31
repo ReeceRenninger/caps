@@ -2,7 +2,7 @@
 
 const { orderHandler, deliveredMessage }= require('./handler');
 const payload = require('./chance');
-const eventEmitter = require('../eventPool');
+const eventEmitter = require('../../eventPool');
 
 //.on should be at index level
 eventEmitter.on('delivered', deliveredMessage);
