@@ -2,12 +2,12 @@
   "name": "caps",
   "version": "1.0.0",
   "description": "Project: Lab 12: Socket.io",
-  "main": "hub.js",
+  "main": "index.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "start": "node hub.js",
+    "start": "node index.js",
     "test": "jest --verbose --coverage",
     "test-watch": "jest --watchAll --verbose --coverage"
   },

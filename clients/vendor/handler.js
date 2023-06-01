@@ -1,7 +1,8 @@
 'use strict';
 
+const { io } =  require('socket.io-client');
+const socket =  io('http://localhost:3001/caps');
 var Chance = require('chance');
-const eventEmitter = require('../../eventPool');
 var chance = new Chance();
 
 //Begins the order process with setInterval on index level.
@@ -15,8 +16,8 @@ const orderHandler = (payload=null) => {
     };
   }
 
-  console.log('VENDOR: ORDER ready for pickup:', payload);
-  eventEmitter.emit('pickup', payload);
+  // console.log('VENDOR: ORDER ready for pickup:', payload);
+  socket.emit('pickup', payload);
 };
 
 // testable code for deliveredMessage

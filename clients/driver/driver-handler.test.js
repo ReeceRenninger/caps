@@ -1,12 +1,15 @@
 'use strict';
 
-let eventEmitter = require('../../eventPool');
+const { io } =  require('socket.io-client');
+const socket =  io('http://localhost:3001/caps');
 const { pickupOccurred, packageDelivered } = require('./handler');
 
-jest.mock('../../eventPool.js', () => {
+jest.mock('socket.io-client', () => {
+  const emit = jest.fn();
   return {
-    on: jest.fn(),
-    emit: jest.fn(),
+    io: jest.fn().mockReturnValue({
+      emit,
+    }),
   };
 });
 
@@ -27,7 +30,7 @@ describe('Testing driver handlers', () => {
     let payload = { orderId: 12345 };
     pickupOccurred(payload);
 
-    expect(eventEmitter.emit).toHaveBeenCalledWith('in-transit', payload);
+    expect(socket.emit).toHaveBeenCalledWith('in-transit', payload);
     expect(consoleSpy).toHaveBeenCalledWith('DRIVER: picked up', payload.orderId);
   });
 
@@ -36,7 +39,7 @@ describe('Testing driver handlers', () => {
     let payload = { orderId: 12345};
     packageDelivered(payload);
 
-    expect(eventEmitter.emit).toHaveBeenCalledWith('delivered', payload);
+    expect(socket.emit).toHaveBeenCalledWith('delivered', payload);
     expect(consoleSpy).toHaveBeenCalledWith('DRIVER: delivered', payload.orderId);
   });
 
