@@ -16,7 +16,7 @@ const createOrder = (socket, payload = null) => {
   }
   //Join room specific to store name
   socket.emit('JOIN', payload.store);
-  console.log('VENDOR: Order ready for pickup.');
+  console.log(`VENDOR: Order #:${payload.orderID} ready for pickup.`);
   socket.emit('pickup', payload);
 
 };

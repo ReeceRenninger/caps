@@ -4,11 +4,12 @@
 require('dotenv').config();
 const { Server } = require('socket.io');
 const PORT = process.env.PORT || 3002;
+// pulling in queue and creating eventQueue
 const Queue = require('./lib/queue');
 let eventQueue = new Queue();
-//create socket singleton
+// create socket singleton
 const server = new Server();
-//namespace creation
+// namespace creation
 const caps = server.of('/caps');
 
 // connecting to caps namespace
@@ -39,7 +40,7 @@ caps.on('connection', (socket) => {
     // now that we KNOW we have a currentQueue lets STORE the incoming message
     // we know the unique ORDERID from payload.
     currentQueue.store(payload.orderID, payload);
-    console.log(currentQueue); //testing if currentQueue is storing properly
+    // console.log('console log in the pickup socket.on at server', currentQueue); //testing if currentQueue is storing properly
 
     socket.broadcast.emit('pickup', payload);
   });
@@ -49,6 +50,7 @@ caps.on('connection', (socket) => {
     socket.broadcast.emit('in-transit', payload);
   });
   
+  //TODO: FIX THIS MUDDDAFUGGA
   socket.on('delivered', (payload) => {
     let currentQueue = eventQueue.read(payload.store);
     if(!currentQueue){
@@ -57,7 +59,7 @@ caps.on('connection', (socket) => {
     }
 
     currentQueue.store(payload.orderID, payload);
-    console.log(currentQueue); // testing currentQueue at delivered status
+    console.log('console log in the delivered socket.on at server', currentQueue); // testing currentQueue at delivered status
 
     socket.broadcast.emit('delivered', payload);
   });
@@ -72,8 +74,8 @@ caps.on('connection', (socket) => {
     }
 
     let message = currentQueue.remove(payload.orderID);
-    console.log(currentQueue); // testing funcitonality
-    caps.emit('received', message);
+    // console.log('this log is from within the received socket.on on server', currentQueue); // testing funcitonality
+    socket.emit('received', message);
   });
 
   //TODO: get clarification this works somehow
