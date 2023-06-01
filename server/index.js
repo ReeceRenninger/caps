@@ -62,6 +62,7 @@ caps.on('connection', (socket) => {
     socket.broadcast.emit('delivered', payload);
   });
 
+  //payload was successfully read should include client id, event name, and order id so you can DELETE IT from queue
   socket.on('received', (payload) => {
     //id will equal payload.queueId if it exits otherwise use payload.store
     let id = payload.queueId ? payload.queueId : payload.store;
@@ -73,6 +74,22 @@ caps.on('connection', (socket) => {
     let message = currentQueue.remove(payload.orderID);
     console.log(currentQueue); // testing funcitonality
     caps.emit('received', message);
+  });
+
+  //TODO: get clarification this works somehow
+  socket.on('getAll', (payload) => {
+    console.log('attempting to get all messages');
+    // sending to the correct room or using the payload.queueId
+    let id = payload.queueId ? payload.queueId : payload.store;
+    let currentQueue = eventQueue.read(id);
+    if(currentQueue && currentQueue.data){
+      Object.keys(currentQueue.data).forEach(orderID => {
+        // sending saved messages that were missed by recipient
+        //Ryan emitted MESSAGES which is equivalent to our pickup? 
+        //I think since the drivers will be grabbing all generated pickup orders from vendor while they are offline.
+        socket.emit('pickup', currentQueue.read(orderID));
+      });
+    }
   });
 
 
