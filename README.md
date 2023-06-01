@@ -1,20 +1,21 @@
-# LAB - Class 12: Socket.io
+# LAB - Class 13
 
-## Project: Lab 12: Socket.io
+## Project: Lab 12: Building message queue
 
 ### Author: Reece Renninger
 
 ### Problem Domain  
 
-This is the start of a 4 build phase for a CAPs system built in Node.js.  Initial goal is to set up a pool of events and handlers that communicate with each other based on a package in its different steps along its way to being delivered. These interactions will be completed using socket.io and socket.io-client.
+This is the start of a 4 build phase for a CAPs system built in Node.js.  Initial goal is to set up a pool of events and handlers that communicate with each other based on a package in its different steps along its way to being delivered. These interactions will be completed using socket.io and socket.io-client. Implementing a message/event queue to store so that nothing is missed in case a receipent is offline.
 
 Major functionality to cover in lab:
 
-    As a vendor, I want to alert the system when I have a package to be picked up.
-    As a driver, I want to be notified when there is a package to be delivered.
-    As a driver, I want to alert the system when I have picked up a package and it is in transit.
-    As a driver, I want to alert the system when a package has been delivered.
-    As a vendor, I want to be notified when my package has been delivered.
+    As a vendor, I want to “subscribe” to “delivered” notifications so that I know when my packages are delivered.
+    As a vendor, I want to “catch up” on any “delivered” notifications that I might have missed so that I can see a complete log.
+    As a driver, I want to “subscribe” to “pickup” notifications so that I know what packages to deliver.
+    As a driver, I want to “catch up” on any “pickup” notifications I may have missed so that I can deliver everything.
+    As a driver, I want a way to “scan” a delivery so that the vendors know when a package has been delivered.
+
 
 ### Links and Resources
 
@@ -22,16 +23,15 @@ Major functionality to cover in lab:
 
 ### Collaborators
 
-- Ike, Kaeden, Nick all worked together to help with all the different socket connections and testing.
-- Ryan G, Stephen, and Keelen helped with our env issue with server not starting up correctly.
-- ChatGPT helped with modifying tests to socket.io from the eventemitter.
-
+- 
 
 ### Setup
 
+- Clone repo, npm i jest dotenv socket.io chance eslint socket.io-client. You will have to run 4 terminals and cd into each folder and run node index.js to get them live. Proof of life should be server terminal showing connection to caps namespace for each folder terminal.
+
 #### `.env` requirements (where applicable)
 
-for now I have none and do not require one
+env = < port-of-your-choice >
 
 
 #### How to initialize/run your application (where applicable)
@@ -51,4 +51,4 @@ for now I have none and do not require one
 
 #### UML
 
-![Alt text](assets/lab12UML.png)
+![Alt text](assets/lab13UML.png)
