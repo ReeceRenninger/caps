@@ -1,14 +1,28 @@
 'use strict';
 
-//bring io in at index level for each driver and vendor
-const { io } =  require('socket.io-client');
-const socket =  io('http://localhost:3001/caps');
-const { handlePickupAndDelivered } = require('./handler');
+const { io } = require('socket.io-client');
 
-//.ons listening to emit 'pickup' that triggers the function(s) handlePickupAndDelivery
-socket.on('pickup', handlePickupAndDelivered); 
+const socket = io.connect('http://localhost:3001/caps');
 
-//!! Not needed but wanted to test room join functionality
-let store = '1-206-flowers';
-socket.emit('JOIN', store);
+//attempts to get all stored messages with 'DRIVER' attached
+socket.emit('getAll', { queueId: 'DRIVER' });
 
+//modified handlers to just be listeners/ emits.
+socket.on('pickup', (payload) => {
+  setTimeout(() => {
+    console.log(`DRIVER: picked up ${payload.orderID}`);
+    socket.emit('received', { queueId: 'DRIVER' });
+    socket.emit('in-transit', payload);
+  }, 1000);
+});
+
+socket.on('in-transit', (payload) => {
+  setTimeout(() => {
+    socket.emit('delivered', payload);
+
+  }, 1000);
+});
+
+socket.on('delivered', (payload) => {
+  console.log(`DRIVER: delivered ${payload.orderID}`);
+});

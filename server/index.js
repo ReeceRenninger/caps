@@ -29,6 +29,7 @@ caps.on('connection', (socket) => {
   });
 
   socket.on('pickup', (payload) => {
+    //looking for 'DRIVER' in emit to get all messages
     let currentQueue = eventQueue.read('DRIVER');
     //server on run wont know que so we need validation
     if(!currentQueue){
@@ -47,6 +48,19 @@ caps.on('connection', (socket) => {
     
     socket.broadcast.emit('in-transit', payload);
   });
+  
+  socket.on('delivered', (payload) => {
+    let currentQueue = eventQueue.read(payload.store);
+    if(!currentQueue){
+      let queueKey = eventQueue.store(payload.store, new Queue());
+      currentQueue = eventQueue.read(queueKey);
+    }
+
+    currentQueue.store(payload.orderID, payload);
+    console.log(currentQueue); // testing currentQueue at delivered status
+
+    socket.broadcast.emit('delivered', payload);
+  });
 
   socket.on('received', (payload) => {
     //id will equal payload.queueId if it exits otherwise use payload.store
@@ -56,15 +70,11 @@ caps.on('connection', (socket) => {
       throw new Error('No queue found for this store:', payload.store);
     }
 
-    let message = currentQueue.remove(payload.orderId);
+    let message = currentQueue.remove(payload.orderID);
     console.log(currentQueue); // testing funcitonality
     caps.emit('received', message);
   });
 
-  socket.on('delivered', (payload) => {
-    
-    socket.broadcast.emit('delivered', payload);
-  });
 
 });
 

@@ -1,32 +1,29 @@
 'use strict';
 
-const { io } =  require('socket.io-client');
-const socket =  io('http://localhost:3001/caps');
 var Chance = require('chance');
 var chance = new Chance();
 
-//Begins the order process with setInterval on index level.
-const orderCreator = (payload=null) => {
+//used lab build out and modified this to fit flower vendor needed for lab 13
+const createOrder = (socket, payload = null) => {
   if(!payload){
     payload = {
       store: '1-800-flowers',
-      orderId: chance.guid(),
+      orderID: chance.guid(),
       customer: chance.name(),
       address: chance.address(),
     };
+
   }
-
+  //Join room specific to store name
+  socket.emit('JOIN', payload.store);
+  console.log('VENDOR: Order ready for pickup.');
   socket.emit('pickup', payload);
+
+};
+//vendor thank you message once it receives the delivered 
+const packageDelivered = (payload) => {
+  console.log(`VENDOR: Thank you for delivering ${payload.orderID}`);
+  
 };
 
-// testable code for deliveredMessage
-const thankDriver = (payload) =>
-  console.log('VENDOR: Thank you for your order', payload.customer);
-
-const deliveredMessage = (payload) => {
-  setTimeout(() => {
-    thankDriver(payload);
-  }, 1000);
-};
-
-module.exports = { orderCreator, deliveredMessage, thankDriver };
+module.exports = { createOrder, packageDelivered }; 

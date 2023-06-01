@@ -3,7 +3,7 @@
 const { io } =  require('socket.io-client');
 const socket =  io('http://localhost:3001/caps');
 
-const { orderCreator, thankDriver } = require('./handler');
+const { createOrder , thankDriver } = require('./handler');
 
 jest.mock('socket.io-client', () => {
   const emit = jest.fn();
@@ -28,12 +28,12 @@ afterAll(() => {
 
 describe('Vendor handlers', () => {
 
-  test('Should log correct emit and console log for orderCreator', () => {
+  test('Should log correct emit and console log for createOrder', () => {
     let payload = {
       orderId: 12345,
     };
 
-    orderCreator(payload);
+    createOrder(payload);
 
     expect(socket.emit).toHaveBeenCalledWith('pickup', payload);
   });
