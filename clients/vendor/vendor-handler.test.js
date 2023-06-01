@@ -33,7 +33,6 @@ describe('Vendor handlers', () => {
 
     orderHandler(payload);
 
-    // expect(consoleSpy).toHaveBeenCalledWith('VENDOR: ORDER ready for pickup:', payload);
     expect(socket.emit).toHaveBeenCalledWith('pickup', payload);
   });
 

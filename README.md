@@ -19,11 +19,13 @@ Major functionality to cover in lab:
 ### Links and Resources
 
 - [GitHub Actions ci/cd](https://github.com/ReeceRenninger/caps/actions)
-- [back-end server url](http://xyz.com) (when applicable)
 
 ### Collaborators
 
--
+- Ike, Kaeden, Nick all worked together to help with all the different socket connections and testing.
+- Ryan G, Stephen, and Keelen helped with our env issue with server not starting up correctly.
+- ChatGPT helped with modifying tests to socket.io from the eventemitter.
+
 
 ### Setup
 
@@ -40,8 +42,7 @@ for now I have none and do not require one
 
 #### Features / Routes
 
-- Feature One: Details of feature
-- GET : `/hello` - specific route to hit
+- Socket server communication between 3 separate instances all communicating through the main server index.
 
 #### Tests
 
