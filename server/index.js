@@ -12,16 +12,11 @@ const server = new Server();
 //namespace creation
 const caps = server.of('/caps');
 
-function logger(event, payload){
-  const timestamp = new Date();
-  console.log('EVENT: ', { event, timestamp, payload });
-}
-
 // allows for clients to connect directly to server
-server.on('connection', (socket) => {
-  console.log('Server socket connection to event server: ', socket.id);
+// server.on('connection', (socket) => {
+//   console.log('Server socket connection to event server: ', socket.id);
 
-});
+// });
 
 // connecting to caps namespace
 caps.on('connection', (socket) => {
@@ -34,19 +29,25 @@ caps.on('connection', (socket) => {
     socket.join(room);
   });
 
+  //different approach to logger 
+  socket.onAny((event, payload) => {
+    const timestamp = new Date();
+    console.log('EVENT: ', { event, timestamp, payload });
+  });
+
   socket.on('pickup', (payload) => {
-    logger('pickup', payload);
-    caps.emit('pickup', payload);
+    // logger('pickup', payload);
+    socket.broadcast.emit('pickup', payload);
   });
 
   socket.on('in-transit', (payload) => {
-    logger('in-transit', payload);
-    caps.emit('in-transit', payload);
+    // logger('in-transit', payload);
+    socket.broadcast.emit('in-transit', payload);
   });
 
   socket.on('delivered', (payload) => {
-    logger('delivered', payload);
-    caps.emit('delivered', payload);
+    // logger('delivered', payload);
+    socket.broadcast.emit('delivered', payload);
   });
 
 });

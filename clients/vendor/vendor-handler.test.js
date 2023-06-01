@@ -7,9 +7,11 @@ const { orderHandler, thankDriver } = require('./handler');
 
 jest.mock('socket.io-client', () => {
   const emit = jest.fn();
+  const on = jest.fn();
   return {
     io: jest.fn().mockReturnValue({
       emit,
+      on,
     }),
   };
 });

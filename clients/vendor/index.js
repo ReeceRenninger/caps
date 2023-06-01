@@ -13,7 +13,6 @@ socket.on('delivered', deliveredMessage);
 let store = '1-206-flowers';
 socket.emit('JOIN', store);
 
-
 //!! Generates order cycle for pickup after 5 seconds
 setInterval(() => {
   orderHandler();
