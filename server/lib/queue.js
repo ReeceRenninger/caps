@@ -7,7 +7,7 @@ class Queue {
 
   store(key,value ){
     this.data[key] = value;
-    console.log('Message was stored');
+    console.log('Something was stored in queue'); // here for testing purpose delete later
     return key;
   }
 
@@ -18,6 +18,7 @@ class Queue {
   remove(key){
     let value = this.data[key];
     delete this.data[key];
+    console.log('Something was removed from queue');
     return value; // returns what was deleted
   }
 }

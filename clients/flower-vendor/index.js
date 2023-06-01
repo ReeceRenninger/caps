@@ -1,6 +1,6 @@
 'use strict';
 
-const { orderHandler, deliveredMessage } = require('./handler');
+const { orderCreator, deliveredMessage } = require('./handler');
 
 //bring io in at index level for each driver and vendor
 const { io } = require('socket.io-client');
@@ -15,7 +15,7 @@ socket.emit('JOIN', store);
 
 //!! Generates order cycle for pickup after 5 seconds
 setInterval(() => {
-  orderHandler();
+  orderCreator();
 }, 5000);
 
 

@@ -1,22 +1,15 @@
 'use strict';
-//example to emit to room
-// socket.to(room).emit('some event', some-payload);
 // cheat sheet for socket connection https://socket.io/docs/v3/emit-cheatsheet/
 
 require('dotenv').config();
 const { Server } = require('socket.io');
 const PORT = process.env.PORT || 3002;
-
+const Queue = require('./lib/queue');
+let eventQueue = new Queue();
 //create socket singleton
 const server = new Server();
 //namespace creation
 const caps = server.of('/caps');
-
-// allows for clients to connect directly to server
-// server.on('connection', (socket) => {
-//   console.log('Server socket connection to event server: ', socket.id);
-
-// });
 
 // connecting to caps namespace
 caps.on('connection', (socket) => {
@@ -36,17 +29,40 @@ caps.on('connection', (socket) => {
   });
 
   socket.on('pickup', (payload) => {
-    // logger('pickup', payload);
+    let currentQueue = eventQueue.read('DRIVER');
+    //server on run wont know que so we need validation
+    if(!currentQueue){
+      let queueKey = eventQueue.store('DRIVER', new Queue());// generates a new que with 'DRIVER' 
+      currentQueue = eventQueue.read(queueKey);
+    }
+    // now that we KNOW we have a currentQueue lets STORE the incoming message
+    // we know the unique ORDERID from payload.
+    currentQueue.store(payload.orderID, payload);
+    console.log(currentQueue); //testing if currentQueue is storing properly
+
     socket.broadcast.emit('pickup', payload);
   });
 
   socket.on('in-transit', (payload) => {
-    // logger('in-transit', payload);
+    
     socket.broadcast.emit('in-transit', payload);
   });
 
+  socket.on('received', (payload) => {
+    //id will equal payload.queueId if it exits otherwise use payload.store
+    let id = payload.queueId ? payload.queueId : payload.store;
+    let currentQueue = eventQueue.read(id);
+    if(!currentQueue){
+      throw new Error('No queue found for this store:', payload.store);
+    }
+
+    let message = currentQueue.remove(payload.orderId);
+    console.log(currentQueue); // testing funcitonality
+    caps.emit('received', message);
+  });
+
   socket.on('delivered', (payload) => {
-    // logger('delivered', payload);
+    
     socket.broadcast.emit('delivered', payload);
   });
 

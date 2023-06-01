@@ -6,10 +6,10 @@ var Chance = require('chance');
 var chance = new Chance();
 
 //Begins the order process with setInterval on index level.
-const orderHandler = (payload=null) => {
+const orderCreator = (payload=null) => {
   if(!payload){
     payload = {
-      store: chance.company(),
+      store: '1-800-flowers',
       orderId: chance.guid(),
       customer: chance.name(),
       address: chance.address(),
@@ -29,4 +29,4 @@ const deliveredMessage = (payload) => {
   }, 1000);
 };
 
-module.exports = { orderHandler, deliveredMessage, thankDriver };
+module.exports = { orderCreator, deliveredMessage, thankDriver };
