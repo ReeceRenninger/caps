@@ -39,8 +39,7 @@ caps.on('connection', (socket) => {
     }
     // now that we KNOW we have a currentQueue lets STORE the incoming message
     // we know the unique ORDERID from payload.
-    currentQueue.store(payload.orderID, payload);
-    // console.log('console log in the pickup socket.on at server', currentQueue); //testing if currentQueue is storing properly
+    currentQueue.store(payload.orderID, payload); //'DRIVER' in place of payload.orderID will properly delete BUT it cannot handle multiple orders
 
     socket.broadcast.emit('pickup', payload);
   });
@@ -73,11 +72,10 @@ caps.on('connection', (socket) => {
       throw new Error('No queue found for this store:', payload.store);
     }
 
-    let order = currentQueue.remove(payload.queueId); //payload.orderID
+    let order = currentQueue.remove(payload.orderID); 
     socket.broadcast.emit('received', order);
   });
 
-  //TODO: get clarification this works somehow
   socket.on('getAll', (payload) => {
     console.log('attempting to get all orders');
     // sending to the correct room or using the payload.queueId
