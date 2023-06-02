@@ -23,7 +23,7 @@ Major functionality to cover in lab:
 
 ### Collaborators
 
-- 
+- Ike and I worked together on the majority of the lab.
 
 ### Setup
 
