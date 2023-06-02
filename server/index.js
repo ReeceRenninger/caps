@@ -73,7 +73,7 @@ caps.on('connection', (socket) => {
       throw new Error('No queue found for this store:', payload.store);
     }
 
-    let order = currentQueue.remove(payload.orderID);
+    let order = currentQueue.remove(payload.queueId); //payload.orderID
     socket.broadcast.emit('received', order);
   });
 
