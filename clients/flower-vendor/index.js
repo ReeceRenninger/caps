@@ -14,6 +14,7 @@ setInterval(() => {
   createOrder(socket);
 }, 5000);
 
+//!! THIS IS NOT FIRING
 //triggers the packageDelivered thank you message on from handler, emits received to be caught by server
 socket.on('delivered', (payload) => {
   packageDelivered(payload);

@@ -22,8 +22,7 @@ const createOrder = (socket, payload = null) => {
 };
 //vendor thank you message once it receives the delivered 
 const packageDelivered = (payload) => {
-  console.log(`VENDOR: Thank you for delivering ${payload.orderID}`);
-  
+  console.log(`VENDOR: Thank you for your order ${payload.customer}`);
 };
 
 module.exports = { createOrder, packageDelivered }; 

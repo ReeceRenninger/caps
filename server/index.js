@@ -33,7 +33,7 @@ caps.on('connection', (socket) => {
     //looking for 'DRIVER' in emit to get all messages
     let currentQueue = eventQueue.read('DRIVER');
     //server on run wont know que so we need validation
-    if(!currentQueue){
+    if (!currentQueue) {
       let queueKey = eventQueue.store('DRIVER', new Queue());// generates a new que with 'DRIVER' 
       currentQueue = eventQueue.read(queueKey);
     }
@@ -46,14 +46,13 @@ caps.on('connection', (socket) => {
   });
 
   socket.on('in-transit', (payload) => {
-    
-    socket.broadcast.emit('in-transit', payload);
+
+    caps.emit('in-transit', payload); //!! had to switch to caps.emit message was NOT GOING OUT with broadcast or normal socket
   });
-  
-  //TODO: FIX THIS MUDDDAFUGGA
+
   socket.on('delivered', (payload) => {
     let currentQueue = eventQueue.read(payload.store);
-    if(!currentQueue){
+    if (!currentQueue) {
       let queueKey = eventQueue.store(payload.store, new Queue());
       currentQueue = eventQueue.read(queueKey);
     }
@@ -61,7 +60,7 @@ caps.on('connection', (socket) => {
     currentQueue.store(payload.orderID, payload);
     console.log('console log in the delivered socket.on at server', currentQueue); // testing currentQueue at delivered status
 
-    socket.broadcast.emit('delivered', payload);
+    caps.emit('delivered', payload); //!! had to switch to caps.emit message was NOT GOING OUT with broadcast or normal socket
   });
 
   //payload was successfully read should include client id, event name, and order id so you can DELETE IT from queue
@@ -69,22 +68,22 @@ caps.on('connection', (socket) => {
     //id will equal payload.queueId if it exits otherwise use payload.store
     let id = payload.queueId ? payload.queueId : payload.store;
     let currentQueue = eventQueue.read(id);
-    if(!currentQueue){
+    if (!currentQueue) {
       throw new Error('No queue found for this store:', payload.store);
     }
 
-    let message = currentQueue.remove(payload.orderID);
+    let order = currentQueue.remove(payload.orderID);
     // console.log('this log is from within the received socket.on on server', currentQueue); // testing funcitonality
-    socket.emit('received', message);
+    socket.emit('received', order);
   });
 
   //TODO: get clarification this works somehow
   socket.on('getAll', (payload) => {
-    console.log('attempting to get all messages');
+    console.log('attempting to get all orders');
     // sending to the correct room or using the payload.queueId
     let id = payload.queueId ? payload.queueId : payload.store;
     let currentQueue = eventQueue.read(id);
-    if(currentQueue && currentQueue.data){
+    if (currentQueue && currentQueue.data) {
       Object.keys(currentQueue.data).forEach(orderID => {
         // sending saved messages that were missed by recipient
         //Ryan emitted MESSAGES which is equivalent to our pickup? 

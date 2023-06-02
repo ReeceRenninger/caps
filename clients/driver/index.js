@@ -16,12 +16,13 @@ socket.on('pickup', (payload) => {
 });
 
 socket.on('in-transit', (payload) => {
+  
   setTimeout(() => {
     socket.emit('delivered', payload);
-    console.log(`DRIVER: in-transit with order:${payload.orderID}`); //!! TESTING IF THIS SOCKET IS EVEN FIRING
   }, 1000);
 });
 
 socket.on('delivered', (payload) => {
+  
   console.log(`DRIVER: delivered ${payload.orderID}`);
 });
