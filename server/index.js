@@ -63,6 +63,7 @@ caps.on('connection', (socket) => {
     caps.emit('delivered', payload); //!! had to switch to caps.emit message was NOT GOING OUT with broadcast or normal socket
   });
 
+  //!! I DONT KNOW IF THIS IS WORKING? I think it is but can't figure out how to test
   //payload was successfully read should include client id, event name, and order id so you can DELETE IT from queue
   socket.on('received', (payload) => {
     //id will equal payload.queueId if it exits otherwise use payload.store
@@ -73,8 +74,7 @@ caps.on('connection', (socket) => {
     }
 
     let order = currentQueue.remove(payload.orderID);
-    // console.log('this log is from within the received socket.on on server', currentQueue); // testing funcitonality
-    socket.emit('received', order);
+    socket.broadcast.emit('received', order);
   });
 
   //TODO: get clarification this works somehow
